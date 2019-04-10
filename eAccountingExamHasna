@@ -1,0 +1,322 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.7
+-- Dumped by pg_dump version 10.7
+
+-- Started on 2019-04-10 17:22:51
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 1 (class 3079 OID 12924)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2830 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 201 (class 1259 OID 25128)
+-- Name: barang; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.barang (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    jumlah integer,
+    hb double precision,
+    hj double precision,
+    created_at timestamp without time zone,
+    status_enabled boolean,
+    satuan character varying
+);
+
+
+ALTER TABLE public.barang OWNER TO postgres;
+
+--
+-- TOC entry 200 (class 1259 OID 25126)
+-- Name: barang_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.barang_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.barang_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2831 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: barang_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.barang_id_seq OWNED BY public.barang.id;
+
+
+--
+-- TOC entry 197 (class 1259 OID 25109)
+-- Name: cashflow; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.cashflow (
+    id integer NOT NULL,
+    created_at timestamp without time zone,
+    status_enabled boolean,
+    cash_in double precision,
+    cash_out double precision,
+    balance double precision,
+    id_transaksi integer,
+    keterangan character varying
+);
+
+
+ALTER TABLE public.cashflow OWNER TO postgres;
+
+--
+-- TOC entry 196 (class 1259 OID 25107)
+-- Name: cashflow_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.cashflow_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.cashflow_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2832 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: cashflow_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.cashflow_id_seq OWNED BY public.cashflow.id;
+
+
+--
+-- TOC entry 199 (class 1259 OID 25117)
+-- Name: transaksi; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.transaksi (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    created_at timestamp without time zone,
+    status_enabled boolean,
+    id_barang integer,
+    jumlah integer,
+    tipe character varying
+);
+
+
+ALTER TABLE public.transaksi OWNER TO postgres;
+
+--
+-- TOC entry 198 (class 1259 OID 25115)
+-- Name: transaksi_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.transaksi_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.transaksi_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2833 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: transaksi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.transaksi_id_seq OWNED BY public.transaksi.id;
+
+
+--
+-- TOC entry 2687 (class 2604 OID 25131)
+-- Name: barang id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.barang ALTER COLUMN id SET DEFAULT nextval('public.barang_id_seq'::regclass);
+
+
+--
+-- TOC entry 2685 (class 2604 OID 25112)
+-- Name: cashflow id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cashflow ALTER COLUMN id SET DEFAULT nextval('public.cashflow_id_seq'::regclass);
+
+
+--
+-- TOC entry 2686 (class 2604 OID 25120)
+-- Name: transaksi id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.transaksi ALTER COLUMN id SET DEFAULT nextval('public.transaksi_id_seq'::regclass);
+
+
+--
+-- TOC entry 2822 (class 0 OID 25128)
+-- Dependencies: 201
+-- Data for Name: barang; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.barang (id, name, jumlah, hb, hj, created_at, status_enabled, satuan) FROM stdin;
+2	buku tulis	2	1000	1000.5	2019-04-10 15:21:37.430848	t	pcs
+3	pensil	100	700.5	1250	2019-04-10 16:13:36.887369	t	pcs
+4	sepatu	0	250000.73000000001	350000.72999999998	2019-04-10 16:13:36.887369	t	pasang
+\.
+
+
+--
+-- TOC entry 2818 (class 0 OID 25109)
+-- Dependencies: 197
+-- Data for Name: cashflow; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.cashflow (id, created_at, status_enabled, cash_in, cash_out, balance, id_transaksi, keterangan) FROM stdin;
+9	2019-04-10 15:21:37.438843	t	0	10000	0	14	tes nambah barang satu
+10	2019-04-10 15:21:37.438843	t	2000	0	0	16	coba beli buku tulis tes 1
+11	2019-04-10 15:33:00.496162	t	2000	0	0	17	coba beli buku tulis tes 1
+12	2019-04-10 15:33:41.027538	t	2000	0	0	18	coba beli buku tulis tes 1
+13	2019-04-10 16:13:36.893366	t	2001	0	0	19	tes ngisi lewat FE
+14	2019-04-10 16:13:36.893366	t	0	70050	0	20	tes nambah barang lewat FE
+15	2019-04-10 16:13:36.893366	t	0	10000029.200000001	0	21	tes beli barang dari FE
+16	2019-04-10 16:13:36.893366	t	14000029.199999999	0	0	22	add barang terjual dari FE
+\.
+
+
+--
+-- TOC entry 2820 (class 0 OID 25117)
+-- Dependencies: 199
+-- Data for Name: transaksi; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.transaksi (id, name, created_at, status_enabled, id_barang, jumlah, tipe) FROM stdin;
+14	tes nambah barang satu	2019-04-10 15:21:37.434845	t	2	10	beli
+16	coba beli buku tulis tes 1	2019-04-10 15:21:37.434845	t	2	2	jual
+17	coba beli buku tulis tes 1	2019-04-10 15:33:00.492165	t	2	2	jual
+18	coba beli buku tulis tes 1	2019-04-10 15:33:41.022542	t	2	2	jual
+19	tes ngisi lewat FE	2019-04-10 16:13:36.890368	t	2	2	jual
+20	tes nambah barang lewat FE	2019-04-10 16:13:36.890368	t	3	100	beli
+21	tes beli barang dari FE	2019-04-10 16:13:36.890368	t	4	40	beli
+22	add barang terjual dari FE	2019-04-10 16:13:36.890368	t	4	40	jual
+\.
+
+
+--
+-- TOC entry 2834 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: barang_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.barang_id_seq', 4, true);
+
+
+--
+-- TOC entry 2835 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: cashflow_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.cashflow_id_seq', 16, true);
+
+
+--
+-- TOC entry 2836 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: transaksi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.transaksi_id_seq', 22, true);
+
+
+--
+-- TOC entry 2693 (class 2606 OID 25136)
+-- Name: barang barang_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.barang
+    ADD CONSTRAINT barang_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2689 (class 2606 OID 25114)
+-- Name: cashflow cashflow_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cashflow
+    ADD CONSTRAINT cashflow_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2691 (class 2606 OID 25125)
+-- Name: transaksi transaksi_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.transaksi
+    ADD CONSTRAINT transaksi_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2694 (class 2606 OID 25150)
+-- Name: cashflow cashflow_id_transaksi_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.cashflow
+    ADD CONSTRAINT cashflow_id_transaksi_fkey FOREIGN KEY (id_transaksi) REFERENCES public.transaksi(id);
+
+
+--
+-- TOC entry 2695 (class 2606 OID 25137)
+-- Name: transaksi transaksi_id_barang_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.transaksi
+    ADD CONSTRAINT transaksi_id_barang_fkey FOREIGN KEY (id_barang) REFERENCES public.barang(id);
+
+
+-- Completed on 2019-04-10 17:22:51
+
+--
+-- PostgreSQL database dump complete
+--
+
