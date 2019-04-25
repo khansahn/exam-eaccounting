@@ -51,7 +51,7 @@ $.ajax({
             
         },
         error : function(){
-            // error handling
+            alert("transaksi gagal")
         },
         complete: function(){
             
